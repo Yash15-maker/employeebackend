@@ -6,7 +6,7 @@ const { generateCrudMethods } = require("../services");
 const employeeCrud = generateCrudMethods(Employee);
 const { validateDbId, raiseRecord404Error } = require("../middlewares");
 
-router.get("/", (req, res, next) => {
+router.get("/home", (req, res, next) => {
   employeeCrud
     .getAll()
     .then((data) => res.send(data))
@@ -23,7 +23,7 @@ router.get("/:id", validateDbId, (req, res, next) => {
     .catch((err) => next(err));
 });
 
-router.post("/", (req, res, next) => {
+router.post("/home", (req, res, next) => {
   employeeCrud
     .create(req.body)
     .then((data) => res.status(201).json(data))
@@ -38,6 +38,18 @@ router.put("/:id", validateDbId, (req, res, next) => {
       else raiseRecord404Error(req, res);
     })
     .catch((err) => next(err));
+});
+
+router.get("/search/:key", async (req, resp) => {
+  let data = await Employee.find({
+    $or: [
+      { phone: { $regex: req.params.key } },
+      {
+        fullName: { $regex: req.params.key },
+      },
+    ],
+  });
+  resp.send(data);
 });
 
 router.delete("/:id", validateDbId, (req, res) => {

@@ -5,4 +5,5 @@ module.exports = mongoose.model("Employee", {
   position: { type: String },
   location: { type: String },
   salary: { type: Number },
+  phone: { type: String },
 });

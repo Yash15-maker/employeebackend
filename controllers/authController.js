@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const collections = require("../models/authModel");
-router.post("/login", async (req, res) => {
+router.post("/", async (req, res) => {
   const { email, password } = req.body;
 
   try {
