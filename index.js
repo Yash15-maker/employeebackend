@@ -2,6 +2,9 @@ const express = require("express");
 const bodyParser = require("body-parser");
 
 //local imports
+// const { initializingPassport } = require("./passportConfig.js");
+// const passport = require("passport");
+// const session = require("express-session");
 const cors = require("cors");
 const connectDb = require("./db.js");
 const employeeRoutes = require("./controllers/employee.controller");
@@ -23,10 +26,22 @@ app.use(function (req, res, next) {
   );
   next();
 });
+// initializingPassport(passport);
 app.use(bodyParser.json());
 app.use(cors());
+// app.set("view engine", "ejs");
 app.use("/api/employees", employeeRoutes);
 app.use("/api/auth/", userRouter);
+// app.use(
+//   session({
+//     secret: "Ym15",
+//     resave: false,
+//     saveUninitialized: false,
+//   })
+// );
+// app.use(passport.initialize());
+// app.use(passport.session());
+
 app.use(errorHandler);
 
 connectDb()
